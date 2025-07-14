@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Client {
     private static String SERVER_IP = "localhost"; // Default, can be changed
-    private static final int SERVER_PORT = 12345;
+    private static final int SERVER_PORT = 8080;
     
     private JFrame frame;
     private JPanel mainPanel;
@@ -376,10 +376,22 @@ public class Client {
                 if (sender.equals(currentChatWith)) {
                     System.out.println("Appending message to chat"); // Debug line
                     appendMessage(sender, content, false);
+                    
+                    // Ensure the chat area is visible and focused
+                    chatArea.requestFocusInWindow();
+                    chatArea.setCaretPosition(chatArea.getDocument().getLength());
+                    
+                    // Force the frame to come to front if it's not already
+                    if (!frame.isFocused()) {
+                        frame.toFront();
+                        frame.requestFocus();
+                    }
                 } else {
-                    // Notification for new message from another contact
+                    // Show notification for new message from another contact
                     JOptionPane.showMessageDialog(frame, "New message from " + sender, 
                                                  "New Message", JOptionPane.INFORMATION_MESSAGE);
+                    // Request updated contact list to refresh any status indicators
+                    out.println("GET_CONTACTS");
                 }
             });
         } else if (message.startsWith("CONTACTS:")) {
@@ -505,6 +517,11 @@ public class Client {
             
             // Scroll to bottom
             chatArea.setCaretPosition(doc.getLength());
+            
+            // Force UI repaint to ensure message is visible
+            chatArea.revalidate();
+            chatArea.repaint();
+            
             System.out.println("Message appended successfully: " + message);
         } catch (Exception e) {
             System.out.println("Error appending message: " + e.getMessage());
