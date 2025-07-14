@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Client {
     private static String SERVER_IP = "localhost"; // Default, can be changed
-    private static final int SERVER_PORT = 8080;
+    private static final int SERVER_PORT = 12345;
     
     private JFrame frame;
     private JPanel mainPanel;

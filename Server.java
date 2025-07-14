@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 public class Server {
-    private static final int PORT = 8080;
+    private static final int PORT = 12345;
     private static final String DB_URL = "jdbc:sqlite:messenger.db";
     private static Connection dbConnection;
     private static JTextArea serverLog;
